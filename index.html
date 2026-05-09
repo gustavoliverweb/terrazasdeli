@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terrazas Deli — Intercambio de Barajitas Panini | Mundial 2026</title>
+    <style>
+        :root {
+            --gold: #b77306;
+            --gold-light: #d4890a;
+            --gold-dark: #8a5604;
+            --orange: #a71f2c;
+            --bg-0: #591c1e;
+            --bg-1: #4a1618;
+            --bg-2: #3d1215;
+            --bg-card: #3d1215;
+            --text-1: #f3e2d4;
+            --text-2: #c4a898;
+            --text-3: #8a6055;
+            --glass: rgba(243, 226, 212, 0.05);
+            --glass-b: rgba(183, 115, 6, 0.28);
+            --glass-b-hover: rgba(183, 115, 6, 0.55);
+        }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-0);
+            color: var(--text-1);
+            font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ─── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            height: 92px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 2.5rem;
+            background: rgba(61, 18, 21, 0.82);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--glass-b);
+            transition: background 0.4s;
+        }
+
+        .nav-logo img {
+            height: 78px; width: auto;
+            display: block; object-fit: contain;
+            filter: drop-shadow(0 2px 12px rgba(0,0,0,0.5));
+        }
+
+        .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+        .nav-links a {
+            color: var(--text-2); text-decoration: none;
+            font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+            transition: color 0.25s;
+        }
+        .nav-links a:hover { color: var(--gold); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: #000; padding: 0.55rem 1.4rem; border-radius: 100px;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 1px;
+            text-transform: uppercase; text-decoration: none;
+            transition: opacity 0.25s, transform 0.25s;
+        }
+        .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+
+        /* ─── HERO ────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 8rem 2rem 5rem;
+            position: relative; overflow: hidden;
+            text-align: center;
+        }
+
+        /* animated gradient orbs */
+        .hero-orb {
+            position: absolute; border-radius: 50%;
+            pointer-events: none; filter: blur(80px);
+        }
+        .hero-orb-1 {
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(183,115,6,0.15) 0%, transparent 70%);
+            top: -100px; left: -150px;
+            animation: orbFloat1 12s ease-in-out infinite;
+        }
+        .hero-orb-2 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(167,31,44,0.18) 0%, transparent 70%);
+            bottom: 0; right: -100px;
+            animation: orbFloat2 14s ease-in-out infinite;
+        }
+        .hero-orb-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(243,226,212,0.06) 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            animation: orbFloat3 10s ease-in-out infinite;
+        }
+
+        @keyframes orbFloat1 {
+            0%,100%{transform:translate(0,0);} 50%{transform:translate(30px,40px);}
+        }
+        @keyframes orbFloat2 {
+            0%,100%{transform:translate(0,0);} 50%{transform:translate(-20px,-30px);}
+        }
+        @keyframes orbFloat3 {
+            0%,100%{transform:translate(-50%,-50%) scale(1);} 50%{transform:translate(-50%,-50%) scale(1.15);}
+        }
+
+        /* grid lines */
+        .hero-grid {
+            position: absolute; inset: 0; pointer-events: none;
+            background-image:
+                linear-gradient(rgba(243,226,212,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(243,226,212,0.04) 1px, transparent 1px);
+            background-size: 80px 80px;
+        }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            border: 1px solid var(--glass-b); background: var(--glass);
+            backdrop-filter: blur(12px);
+            color: var(--gold); padding: 0.5rem 1.4rem; border-radius: 100px;
+            font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase;
+            margin-bottom: 2.5rem; position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-weight: 900; line-height: 0.95; letter-spacing: -3px;
+            margin-bottom: 0.3em; position: relative;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #f3e2d4 0%, #b77306 40%, #a71f2c 80%, #f3e2d4 100%);
+            background-size: 200% auto;
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: textShine 4s linear infinite;
+        }
+
+        @keyframes textShine {
+            0%{background-position:0% center;}
+            100%{background-position:200% center;}
+        }
+
+        .hero-sub {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            color: var(--text-2); font-weight: 300; letter-spacing: 0.5px;
+            line-height: 1.6; max-width: 540px; margin: 1.5rem auto 3rem;
+        }
+        .hero-sub strong { color: #fff; font-weight: 600; }
+
+        .hero-btns {
+            display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+            position: relative;
+        }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: #000; border: none; padding: 1rem 2.8rem; border-radius: 100px;
+            font-size: 0.9rem; font-weight: 800; letter-spacing: 1.5px;
+            text-transform: uppercase; text-decoration: none; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 0 0 0 rgba(255,215,0,0);
+        }
+        .btn-gold:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(255,215,0,0.25);
+        }
+
+        .btn-ghost {
+            background: transparent; border: 1px solid rgba(255,255,255,0.15);
+            color: #fff; padding: 1rem 2.8rem; border-radius: 100px;
+            font-size: 0.9rem; font-weight: 500; letter-spacing: 1px;
+            text-transform: uppercase; text-decoration: none; cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+        /* stats ticker */
+        .stats-ticker {
+            display: flex; gap: 4rem; margin-top: 5rem; padding-top: 3rem;
+            border-top: 1px solid var(--glass-b); flex-wrap: wrap;
+            justify-content: center; position: relative;
+        }
+        .stat { text-align: center; }
+        .stat-n {
+            font-size: 2.8rem; font-weight: 900; color: var(--gold);
+            display: block; line-height: 1;
+        }
+        .stat-l {
+            font-size: 0.7rem; color: var(--text-2); letter-spacing: 2.5px;
+            text-transform: uppercase; margin-top: 0.4rem; display: block;
+        }
+
+        /* scroll indicator */
+        .scroll-hint {
+            position: absolute; bottom: 10rem; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+            color: var(--text-3); font-size: 0.7rem; letter-spacing: 2px;
+            text-transform: uppercase; animation: bounce 2s ease-in-out infinite;
+        }
+        .scroll-hint::after {
+            content: '';
+            width: 1px; height: 40px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+        @keyframes bounce {
+            0%,100%{transform:translateX(-50%) translateY(0);}
+            50%{transform:translateX(-50%) translateY(-8px);}
+        }
+
+        /* ─── SECTIONS COMMON ─────────────────────────── */
+        section { padding: 7rem 2rem; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        .s-label {
+            display: block; color: var(--gold); font-size: 0.72rem;
+            letter-spacing: 4px; text-transform: uppercase; margin-bottom: 1rem;
+        }
+        .s-title {
+            font-size: clamp(2rem, 5vw, 3.8rem); font-weight: 900;
+            line-height: 1.05; letter-spacing: -1px;
+        }
+        .s-title .g { color: var(--gold); }
+
+        .glow-bar {
+            width: 64px; height: 3px; border-radius: 100px;
+            background: linear-gradient(90deg, var(--gold), var(--orange));
+            margin: 1.5rem 0 1.8rem;
+        }
+
+        /* ─── INVITATION ──────────────────────────────── */
+        .invitation { background: var(--bg-1); }
+
+        .inv-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 5rem; align-items: center;
+        }
+
+        .s-desc {
+            color: var(--text-2); font-size: 1.05rem; line-height: 1.8;
+            max-width: 520px;
+        }
+        .s-desc strong { color: #fff; }
+
+        .features { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+
+        .feat {
+            display: flex; align-items: flex-start; gap: 1rem;
+            padding: 1.2rem; border-radius: 16px;
+            border: 1px solid transparent;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .feat:hover { border-color: var(--glass-b); background: var(--glass); }
+
+        .feat-ico {
+            width: 44px; height: 44px; flex-shrink: 0;
+            background: var(--glass); border: 1px solid var(--glass-b);
+            border-radius: 12px; display: flex; align-items: center;
+            justify-content: center; font-size: 1.3rem;
+        }
+        .feat-txt h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.3rem; }
+        .feat-txt p { color: var(--text-2); font-size: 0.88rem; line-height: 1.5; }
+
+        /* floating cards */
+        .cards-visual {
+            position: relative; height: 550px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .fc {
+            position: absolute; width: 247px; height: 351px;
+            border-radius: 26px; border: 1px solid var(--glass-b);
+            overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .fc:nth-child(1) {
+            background: linear-gradient(160deg,#3d1215,#2e0d0f);
+            transform: rotate(-9deg) translate(-65px, 18px);
+            animation: cardFloat1 5s ease-in-out infinite;
+        }
+        .fc:nth-child(2) {
+            background: linear-gradient(160deg,#4a1618,#3a1012);
+            transform: rotate(5deg) translate(45px, -12px);
+            animation: cardFloat2 5s ease-in-out infinite 0.6s;
+            z-index: 1;
+        }
+        .fc:nth-child(3) {
+            background: linear-gradient(160deg,#591c1e,#461519);
+            transform: rotate(-1deg) translate(-8px, -35px);
+            animation: cardFloat3 5s ease-in-out infinite 1.2s;
+            z-index: 2;
+        }
+
+        @keyframes cardFloat1 {
+            0%,100%{transform:rotate(-9deg) translate(-65px,18px);}
+            50%{transform:rotate(-9deg) translate(-65px,6px);}
+        }
+        @keyframes cardFloat2 {
+            0%,100%{transform:rotate(5deg) translate(45px,-12px);}
+            50%{transform:rotate(5deg) translate(45px,-24px);}
+        }
+        @keyframes cardFloat3 {
+            0%,100%{transform:rotate(-1deg) translate(-8px,-35px);}
+            50%{transform:rotate(-1deg) translate(-8px,-23px);}
+        }
+
+        .fc-head {
+            padding: 0.7rem 0.9rem; font-size: 0.62rem;
+            letter-spacing: 2.5px; color: var(--gold); text-transform: uppercase;
+            font-weight: 700; background: rgba(255,215,0,0.06);
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+        }
+        .fc-body {
+            flex: 1; display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+        }
+        .fc-body img {
+            width: 130px; height: auto; object-fit: contain;
+            filter: drop-shadow(0 4px 16px rgba(0,0,0,0.4));
+        }
+        .fc-foot {
+            padding: 0.7rem; text-align: center;
+            font-size: 0.6rem; color: var(--text-3); letter-spacing: 1.5px;
+            text-transform: uppercase; background: rgba(0,0,0,0.2);
+        }
+
+        /* ─── PLAYERS ─────────────────────────────────── */
+        .players { background: var(--bg-0); position: relative; overflow: hidden; }
+
+        .players-hd {
+            display: flex; justify-content: space-between; align-items: flex-end;
+            margin-bottom: 3.5rem; flex-wrap: wrap; gap: 2rem;
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .pcard {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-b);
+            border-radius: 22px; overflow: hidden;
+            aspect-ratio: 3/4; position: relative;
+            display: flex; flex-direction: column;
+            transition: transform 0.35s cubic-bezier(.25,.8,.25,1),
+                        border-color 0.35s, box-shadow 0.35s;
+            cursor: pointer;
+        }
+        .pcard:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--glass-b-hover);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,215,0,0.1);
+        }
+        .pcard::after {
+            content: ''; position: absolute; inset: 0; pointer-events: none;
+            background: linear-gradient(to bottom, transparent 45%, rgba(0,0,0,0.95) 100%);
+            z-index: 1;
+        }
+
+        .pcard-img {
+            flex: 1; overflow: hidden; position: relative;
+            background: linear-gradient(135deg, #3d1215 0%, #4a1618 100%);
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+
+        .pcard-img img {
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: top center;
+            display: block;
+        }
+
+        /* placeholder shown when no image */
+        .pcard-placeholder {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 0.6rem; color: rgba(243,226,212,0.12);
+        }
+        .pcard-placeholder svg { width: 56px; height: 56px; }
+        .pcard-placeholder span {
+            font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase;
+        }
+
+        /* number watermark */
+        .pcard-num {
+            position: absolute; top: 0.9rem; left: 1rem;
+            font-size: 3.5rem; font-weight: 900; line-height: 1;
+            color: rgba(183,115,6,0.18); z-index: 2; user-select: none;
+        }
+
+        /* gold badge top-right */
+        .pcard-badge {
+            position: absolute; top: 0.9rem; right: 0.9rem; z-index: 2;
+            width: 30px; height: 30px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; font-weight: 800; color: #000;
+        }
+
+        .pcard-info {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 1.4rem 1rem 1rem; z-index: 2;
+        }
+        .pcard-name {
+            font-weight: 700; font-size: 0.95rem; color: #fff;
+            margin-bottom: 0.2rem; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis;
+        }
+        .pcard-country {
+            font-size: 0.72rem; color: var(--gold);
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* ─── HOW IT WORKS ────────────────────────────── */
+        .howto { background: var(--bg-1); position: relative; overflow: hidden; }
+
+        .howto-header { text-align: center; margin-bottom: 4rem; }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem; position: relative;
+        }
+
+        /* connecting line */
+        .steps::before {
+            content: '';
+            position: absolute; top: 48px; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-b), transparent);
+            pointer-events: none;
+        }
+
+        .step {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-b); border-radius: 22px;
+            padding: 2rem 1.6rem; position: relative; overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        .step:hover { transform: translateY(-6px); border-color: rgba(255,215,0,0.3); }
+        .step::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--gold), var(--orange));
+        }
+
+        .step-n {
+            font-size: 5rem; font-weight: 900; line-height: 1;
+            color: rgba(183,115,6,0.12); margin-bottom: 0.5rem;
+            user-select: none;
+        }
+        .step-ico {
+            width: 48px; height: 48px; margin-bottom: 1rem;
+            color: var(--gold);
+            display: flex; align-items: center; justify-content: center;
+        }
+        .step-ico svg { width: 100%; height: 100%; }
+        .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; }
+        .step p { color: var(--text-2); font-size: 0.88rem; line-height: 1.6; }
+
+        /* ─── VISIT ───────────────────────────────────── */
+        .visit { background: var(--bg-0); position: relative; overflow: hidden; }
+
+        .visit-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 5rem; align-items: center;
+        }
+
+        .info-cards { display: flex; flex-direction: column; gap: 1rem; margin-top: 2.5rem; }
+
+        .icard {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-b); border-radius: 16px;
+            padding: 1.3rem 1.5rem;
+            display: flex; align-items: center; gap: 1.1rem;
+            transition: border-color 0.3s;
+        }
+        .icard:hover { border-color: rgba(255,215,0,0.3); }
+
+        .icard-ico {
+            width: 46px; height: 46px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem;
+        }
+        .icard-txt h4 {
+            font-size: 0.68rem; color: var(--gold);
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.3rem;
+        }
+        .icard-txt p { font-size: 0.98rem; font-weight: 500; color: #fff; }
+
+        .visit-visual {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-b); border-radius: 28px;
+            aspect-ratio: 1; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+
+        .map-inner {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 1rem; color: var(--text-3); text-align: center; padding: 2rem;
+        }
+        .map-inner svg { width: 56px; height: 56px; opacity: 0.25; }
+        .map-inner p { font-size: 0.85rem; line-height: 1.5; }
+        .map-inner strong { color: var(--text-2); font-weight: 600; }
+
+        /* ─── CTA BANNER ──────────────────────────────── */
+        .cta-banner {
+            background: var(--bg-1);
+            padding: 5rem 2rem;
+            border-top: 1px solid var(--glass-b);
+            border-bottom: 1px solid var(--glass-b);
+        }
+
+        .cta-inner {
+            max-width: 800px; margin: 0 auto; text-align: center;
+        }
+
+        .cta-inner h2 {
+            font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900;
+            letter-spacing: -1px; margin-bottom: 1.2rem;
+        }
+        .cta-inner p {
+            color: var(--text-2); font-size: 1.05rem; line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+
+        /* ─── FOOTER ──────────────────────────────────── */
+        footer {
+            background: #2a0c0e;
+            padding: 3.5rem 2rem 2.5rem;
+            text-align: center;
+            border-top: 1px solid rgba(183,115,6,0.2);
+        }
+
+        .footer-logo {
+            display: flex; justify-content: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-tag {
+            color: var(--text-3); font-size: 0.85rem; margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex; gap: 2rem; justify-content: center;
+            list-style: none; margin-bottom: 2rem; flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-3); text-decoration: none; font-size: 0.8rem;
+            letter-spacing: 1px; text-transform: uppercase; transition: color 0.25s;
+        }
+        .footer-links a:hover { color: var(--gold); }
+
+        hr.footer-hr { border: none; border-top: 1px solid rgba(243,226,212,0.08); margin-bottom: 1.5rem; }
+
+        .footer-copy { color: var(--text-3); font-size: 0.75rem; }
+
+        /* ─── FADE-IN ──────────────────────────────────── */
+        .fi {
+            opacity: 0; transform: translateY(28px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fi.show { opacity: 1; transform: translateY(0); }
+        .fi-d1 { transition-delay: 0.1s; }
+        .fi-d2 { transition-delay: 0.2s; }
+        .fi-d3 { transition-delay: 0.3s; }
+        .fi-d4 { transition-delay: 0.4s; }
+        .fi-d5 { transition-delay: 0.5s; }
+
+        /* ─── DECO LOGOS ─────────────────────────────── */
+
+        /* Panini — hero (bottom right) */
+        .deco-panini-hero {
+            position: absolute; bottom: 5rem; right: -30px; z-index: 3;
+            pointer-events: none;
+            opacity: 0.55;
+            transform: rotate(-6deg);
+            filter: drop-shadow(0 8px 32px rgba(0,0,0,0.6));
+            animation: decoFloat 7s ease-in-out infinite;
+        }
+        .deco-panini-hero img { width: 280px; height: auto; }
+
+        @keyframes decoFloat {
+            0%,100%{transform:rotate(-6deg) translateY(0);}
+            50%{transform:rotate(-6deg) translateY(-10px);}
+        }
+
+        /* Panini — players section (top left corner) */
+        .deco-panini-players {
+            position: absolute; top: 3rem; left: -20px; z-index: 0;
+            pointer-events: none; opacity: 0.2;
+            transform: rotate(8deg);
+        }
+        .deco-panini-players img { width: 340px; height: auto; }
+
+        /* Panini — footer area */
+        .deco-panini-footer {
+            display: flex; justify-content: center;
+            margin-bottom: 1.8rem;
+        }
+        .deco-panini-footer img {
+            width: 200px; height: auto; opacity: 0.75;
+            filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
+        }
+
+        /* Terrazas Deli — howto background watermark */
+        .deco-td-howto {
+            position: absolute; bottom: -20px; right: -40px;
+            pointer-events: none; opacity: 0.045;
+            z-index: 0;
+        }
+        .deco-td-howto img { width: 420px; height: auto; }
+
+        /* Terrazas Deli — visit section watermark */
+        .deco-td-visit {
+            position: absolute; top: 50%; left: -60px;
+            transform: translateY(-50%) rotate(-15deg);
+            pointer-events: none; opacity: 0.06; z-index: 0;
+        }
+        .deco-td-visit img { width: 380px; height: auto; }
+
+        /* ─── RESPONSIVE ──────────────────────────────── */
+
+        /* ── Tablet (≤900px) ── */
+        @media (max-width: 900px) {
+            .inv-grid, .visit-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .cards-visual { order: -1; }
+            .nav-links { display: none; }
+
+            .cards-visual { height: 380px; }
+            .fc { width: 170px; height: 242px; border-radius: 22px; }
+            .fc-body img { width: 100px; }
+
+            @keyframes cardFloat1 {
+                0%,100%{transform:rotate(-9deg) translate(-55px,14px);}
+                50%{transform:rotate(-9deg) translate(-55px,4px);}
+            }
+            @keyframes cardFloat2 {
+                0%,100%{transform:rotate(5deg) translate(35px,-10px);}
+                50%{transform:rotate(5deg) translate(35px,-20px);}
+            }
+            @keyframes cardFloat3 {
+                0%,100%{transform:rotate(-1deg) translate(-6px,-28px);}
+                50%{transform:rotate(-1deg) translate(-6px,-18px);}
+            }
+
+            .fc:nth-child(1) { transform: rotate(-9deg) translate(-55px, 14px); }
+            .fc:nth-child(2) { transform: rotate(5deg)  translate(35px, -10px); }
+            .fc:nth-child(3) { transform: rotate(-1deg) translate(-6px, -28px); }
+
+            .deco-panini-hero img { width: 200px; }
+            .players-grid { grid-template-columns: repeat(3, 1fr); }
+            .steps { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ── Mobile (≤600px) ── */
+        @media (max-width: 600px) {
+            /* Nav */
+            nav { height: 68px; padding: 0 1.1rem; }
+            .nav-logo img { height: 56px; }
+            .nav-cta { display: none; }
+
+            /* Sections */
+            section { padding: 4.5rem 1.2rem; }
+            .cta-banner { padding: 3.5rem 1.2rem; }
+
+            /* Hero */
+            .hero { padding: 6rem 1.2rem 3.5rem; }
+            .hero h1 { letter-spacing: -1.5px; }
+            .hero-badge { font-size: 0.65rem; letter-spacing: 1.5px; padding: 0.45rem 1rem; }
+            .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
+            .hero-btns { gap: 0.75rem; }
+            .btn-gold, .btn-ghost { padding: 0.85rem 1.8rem; font-size: 0.82rem; }
+
+            /* Stats en 2×2 */
+            .stats-ticker {
+                display: grid; grid-template-columns: 1fr 1fr;
+                gap: 1.5rem 2rem; margin-top: 3rem; padding-top: 2rem;
+            }
+            .stat-n { font-size: 2rem; }
+
+            /* Scroll hint */
+            .scroll-hint { bottom: 13rem; font-size: 0.62rem; }
+
+            /* Invitation */
+            .inv-grid { gap: 2rem; }
+            .cards-visual { height: 260px; }
+            .fc { width: 120px; height: 170px; border-radius: 16px; }
+            .fc-body img { width: 72px; }
+            .fc-head { font-size: 0.52rem; letter-spacing: 1.5px; padding: 0.5rem 0.6rem; }
+            .fc-foot { font-size: 0.5rem; padding: 0.5rem; }
+
+            @keyframes cardFloat1 {
+                0%,100%{transform:rotate(-9deg) translate(-40px,10px);}
+                50%{transform:rotate(-9deg) translate(-40px,2px);}
+            }
+            @keyframes cardFloat2 {
+                0%,100%{transform:rotate(5deg) translate(26px,-8px);}
+                50%{transform:rotate(5deg) translate(26px,-16px);}
+            }
+            @keyframes cardFloat3 {
+                0%,100%{transform:rotate(-1deg) translate(-5px,-22px);}
+                50%{transform:rotate(-1deg) translate(-5px,-14px);}
+            }
+
+            .fc:nth-child(1) { transform: rotate(-9deg) translate(-40px, 10px); }
+            .fc:nth-child(2) { transform: rotate(5deg)  translate(26px, -8px); }
+            .fc:nth-child(3) { transform: rotate(-1deg) translate(-5px, -22px); }
+
+            /* Players */
+            .players-grid { grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }
+            .players-hd { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .pcard-name { font-size: 0.82rem; }
+            .pcard-country { font-size: 0.62rem; }
+
+            /* Steps */
+            .steps { grid-template-columns: 1fr; gap: 1rem; }
+            .steps::before { display: none; }
+            .step-n { font-size: 3.5rem; }
+
+            /* Visit */
+            .visit-grid { gap: 2rem; }
+            .visit-visual { aspect-ratio: unset; height: 260px; }
+
+            /* Section titles */
+            .s-title { letter-spacing: -0.5px; }
+            .s-desc { font-size: 0.95rem; }
+
+            /* CTA banner */
+            .cta-inner h2 { letter-spacing: -0.5px; }
+            .cta-inner p { font-size: 0.95rem; }
+
+            /* Footer */
+            footer { padding: 2.5rem 1.2rem 2rem; }
+            .deco-panini-footer img { width: 150px; }
+            .footer-links { gap: 1.2rem; }
+
+            /* Ocultar deco pesadas en mobile */
+            .deco-panini-hero { display: none; }
+            .deco-panini-players { display: none; }
+            .deco-td-visit { display: none; }
+            .deco-td-howto img { width: 250px; }
+        }
+
+        /* ── Hamburger ── */
+        .hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 6px; border: none;
+            background: transparent; z-index: 300;
+        }
+        .hamburger span {
+            display: block; width: 24px; height: 2px;
+            background: var(--text-1); border-radius: 2px;
+            transition: all 0.3s;
+        }
+        .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; }
+        .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none; position: fixed;
+            top: 68px; left: 0; right: 0;
+            background: rgba(42,12,14,0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-b);
+            padding: 1.5rem 1.5rem 2rem;
+            flex-direction: column; gap: 0;
+            z-index: 199; transform: translateY(-10px);
+            opacity: 0; transition: opacity 0.25s, transform 0.25s;
+        }
+        .mobile-menu.open {
+            display: flex; opacity: 1; transform: translateY(0);
+        }
+        .mobile-menu a {
+            color: var(--text-2); text-decoration: none;
+            font-size: 1rem; letter-spacing: 1px; text-transform: uppercase;
+            padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+            transition: color 0.25s;
+        }
+        .mobile-menu a:last-child { border-bottom: none; color: var(--gold); font-weight: 700; }
+        .mobile-menu a:hover { color: var(--gold); }
+
+        @media (max-width: 900px) { .hamburger { display: flex; } }
+
+        /* ── Mobile pequeño (≤400px) ── */
+        @media (max-width: 400px) {
+            .hero h1 { letter-spacing: -1px; }
+            .fc { width: 100px; height: 142px; }
+            .fc-body img { width: 58px; }
+            .players-grid { gap: 0.6rem; }
+            .stats-ticker { gap: 1rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav id="navbar">
+    <div class="nav-logo">
+        <img src="TERRAZAS-DELI.png" alt="Terrazas Deli">
+    </div>
+    <ul class="nav-links">
+        <li><a href="#intercambio">Intercambio</a></li>
+        <li><a href="#jugadores">Jugadores</a></li>
+        <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+        <li><a href="#visitanos">Visítanos</a></li>
+    </ul>
+    <a href="#visitanos" class="nav-cta">Visítanos</a>
+    <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- Menú mobile -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#intercambio" class="mobile-link">Intercambio</a>
+    <a href="#jugadores" class="mobile-link">Jugadores</a>
+    <a href="#como-funciona" class="mobile-link">¿Cómo funciona?</a>
+    <a href="#visitanos" class="mobile-link">Visítanos →</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section class="hero" id="inicio">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-orb hero-orb-3"></div>
+    <div class="hero-grid"></div>
+
+    <span class="hero-badge">⚽ &nbsp; Álbum Panini · Mundial de Fútbol — FIFA 2026</span>
+
+    <h1>
+        Completa tu<br><span class="gradient-text">Panini</span>
+    </h1>
+
+    <p class="hero-sub">
+        El punto de intercambio de barajitas <strong>Panini</strong> en <strong>Terrazas Deli</strong>.
+        ¿Te faltan? ¿Tienes repetidas? ¡Ven a cambiar con nosotros!
+    </p>
+
+    <div class="hero-btns">
+        <a href="#intercambio" class="btn-gold">¡Participa ahora!</a>
+        <a href="#como-funciona" class="btn-ghost">¿Cómo funciona?</a>
+    </div>
+
+    <div class="stats-ticker">
+        <div class="stat">
+            <span class="stat-n">48</span>
+            <span class="stat-l">Selecciones</span>
+        </div>
+        <div class="stat">
+            <span class="stat-n">+950</span>
+            <span class="stat-l">Barajitas</span>
+        </div>
+        <div class="stat">
+            <span class="stat-n">3</span>
+            <span class="stat-l">Países anfitriones</span>
+        </div>
+        <div class="stat">
+            <span class="stat-n">∞</span>
+            <span class="stat-l">Diversión</span>
+        </div>
+    </div>
+
+    <div class="scroll-hint">Sigue bajando</div>
+
+    <!-- Panini logo decorativo #1 — hero -->
+    <div class="deco-panini-hero" aria-hidden="true">
+        <img src="panini-logo.svg" alt="">
+    </div>
+</section>
+
+<!-- ─── INVITATION ─── -->
+<section class="invitation" id="intercambio">
+    <div class="container">
+        <div class="inv-grid">
+            <div>
+                <span class="s-label fi show">Únete al intercambio</span>
+                <h2 class="s-title fi fi-d1">
+                    Tu punto de<br>encuentro<br><span class="g">mundialista</span>
+                </h2>
+                <div class="glow-bar fi fi-d2"></div>
+                <p class="s-desc fi fi-d2">
+                    En <strong>Terrazas Deli</strong> habilitamos un espacio especial donde la emoción del fútbol se vive entre amigos. Trae tus barajitas <strong>Panini</strong> repetidas y llévate las que te faltan. Sin costo, sin complicaciones.
+                </p>
+                <div class="features">
+                    <div class="feat fi fi-d3">
+                        <div class="feat-ico" style="color:var(--gold)">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16V4m0 0L3 8m4-4 4 4"/><path d="M17 8v12m0 0 4-4m-4 4-4-4"/></svg>
+                        </div>
+                        <div class="feat-txt">
+                            <h4>Intercambio Panini libre y gratuito</h4>
+                            <p>Cambias tus barajitas Panini repetidas por las que necesitas. Totalmente gratis.</p>
+                        </div>
+                    </div>
+                    <div class="feat fi fi-d4">
+                        <div class="feat-ico" style="color:var(--gold)">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        </div>
+                        <div class="feat-txt">
+                            <h4>Comunidad activa</h4>
+                            <p>Únete a coleccionistas apasionados y completa tu álbum Panini antes del pitazo final.</p>
+                        </div>
+                    </div>
+                    <div class="feat fi fi-d5">
+                        <div class="feat-ico" style="color:var(--gold)">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        </div>
+                        <div class="feat-txt">
+                            <h4>Ambiente mundialista</h4>
+                            <p>Vive la pasión del Mundial 2026 con el sabor y calidad de Terrazas Deli.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cards-visual fi">
+                <div class="fc">
+                    <div class="fc-head">Panini · Mundial 2026</div>
+                    <div class="fc-body"><img src="TERRAZAS-DELI.png" alt="Terrazas Deli"></div>
+                    <div class="fc-foot">Barajita Panini</div>
+                </div>
+                <div class="fc">
+                    <div class="fc-head">Panini · FIFA World Cup</div>
+                    <div class="fc-body"><img src="TERRAZAS-DELI.png" alt="Terrazas Deli"></div>
+                    <div class="fc-foot">Edición especial</div>
+                </div>
+                <div class="fc">
+                    <div class="fc-head">USA · MEX · CAN</div>
+                    <div class="fc-body"><img src="TERRAZAS-DELI.png" alt="Terrazas Deli"></div>
+                    <div class="fc-foot">Panini · Álbum oficial</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── PLAYERS ─── -->
+<section class="players" id="jugadores">
+    <!-- Panini logo decorativo #2 — players -->
+    <div class="deco-panini-players" aria-hidden="true">
+        <img src="panini-logo.svg" alt="">
+    </div>
+    <div class="container">
+        <div class="players-hd">
+            <div>
+                <span class="s-label fi">Estrellas del mundial</span>
+                <h2 class="s-title fi fi-d1">Jugadores<br><span class="g">Destacados</span></h2>
+            </div>
+            <p class="s-desc fi" style="max-width:340px; font-size:0.95rem;">
+                Las barajitas Panini más buscadas del álbum oficial. ¿Tienes alguna repetida?
+            </p>
+        </div>
+
+        <div class="players-grid">
+
+            <!-- ══ PLAYER 1 ══
+                 Para agregar imagen: reemplaza el bloque .pcard-placeholder
+                 con: <img src="jugador1.png" alt="Nombre del jugador">
+                 y personaliza .pcard-name y .pcard-country
+            -->
+            <div class="pcard fi">
+                <div class="pcard-img">
+                    <img src="mbappe.png" alt="Kylian Mbappé">
+                </div>
+                <span class="pcard-num">1</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Kylian Mbappé</div>
+                    <div class="pcard-country">🇫🇷 Francia · Real Madrid</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 2 ══ -->
+            <div class="pcard fi fi-d1">
+                <div class="pcard-img">
+                    <img src="vinicius.png" alt="Vinicius Jr.">
+                </div>
+                <span class="pcard-num">2</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Vinicius Jr.</div>
+                    <div class="pcard-country">🇧🇷 Brasil · Real Madrid</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 3 ══ -->
+            <div class="pcard fi fi-d2">
+                <div class="pcard-img">
+                    <img src="bellingham.png" alt="Jude Bellingham">
+                </div>
+                <span class="pcard-num">3</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Jude Bellingham</div>
+                    <div class="pcard-country">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Inglaterra · Real Madrid</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 4 ══ -->
+            <div class="pcard fi fi-d3">
+                <div class="pcard-img">
+                    <img src="yamal.png" alt="Lamine Yamal">
+                </div>
+                <span class="pcard-num">4</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Lamine Yamal</div>
+                    <div class="pcard-country">🇪🇸 España · FC Barcelona</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 5 ══ -->
+            <div class="pcard fi fi-d4">
+                <div class="pcard-img">
+                    <img src="messi.png" alt="Lionel Messi">
+                </div>
+                <span class="pcard-num">5</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Lionel Messi</div>
+                    <div class="pcard-country">🇦🇷 Argentina · Inter Miami</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 6 ══ -->
+            <div class="pcard fi fi-d5">
+                <div class="pcard-img">
+                    <img src="musiala.png" alt="Jamal Musiala">
+                </div>
+                <span class="pcard-num">6</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Jamal Musiala</div>
+                    <div class="pcard-country">🇩🇪 Alemania · Bayern München</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 7 ══ -->
+            <div class="pcard fi">
+                <div class="pcard-img">
+                    <img src="pedri.png" alt="Pedri">
+                </div>
+                <span class="pcard-num">7</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Pedri</div>
+                    <div class="pcard-country">🇪🇸 España · FC Barcelona</div>
+                </div>
+            </div>
+
+            <!-- ══ PLAYER 8 ══ -->
+            <div class="pcard fi fi-d2">
+                <div class="pcard-img">
+                    <img src="ronaldo.png" alt="Cristiano Ronaldo">
+                </div>
+                <span class="pcard-num">8</span>
+                <div class="pcard-badge">⚽</div>
+                <div class="pcard-info">
+                    <div class="pcard-name">Cristiano Ronaldo</div>
+                    <div class="pcard-country">🇵🇹 Portugal · Al-Nassr</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── HOW IT WORKS ─── -->
+<section class="howto" id="como-funciona">
+    <!-- Terrazas Deli decorativo — howto -->
+    <div class="deco-td-howto" aria-hidden="true">
+        <img src="TERRAZAS-DELI.png" alt="">
+    </div>
+    <div class="container">
+        <div class="howto-header">
+            <span class="s-label fi">Fácil y sin complicaciones</span>
+            <h2 class="s-title fi fi-d1">¿Cómo <span class="g">Funciona?</span></h2>
+        </div>
+        <div class="steps">
+            <div class="step fi">
+                <div class="step-n">01</div>
+                <div class="step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+                </div>
+                <h3>Trae tus repetidas</h3>
+                <p>Selecciona las barajitas Panini que tienes duplicadas y tráelas a Terrazas Deli listo para cambiar.</p>
+            </div>
+            <div class="step fi fi-d1">
+                <div class="step-n">02</div>
+                <div class="step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                </div>
+                <h3>Revisa el catálogo</h3>
+                <p>Busca entre la colección disponible las barajitas Panini que te hacen falta para completar el álbum oficial.</p>
+            </div>
+            <div class="step fi fi-d2">
+                <div class="step-n">03</div>
+                <div class="step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+                </div>
+                <h3>Haz el intercambio</h3>
+                <p>Cambia de manera justa con otros coleccionistas. Una Panini repetida por una que necesitas.</p>
+            </div>
+            <div class="step fi fi-d3">
+                <div class="step-n">04</div>
+                <div class="step-ico">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="M8 7h8"/><path d="M8 11h5"/></svg>
+                </div>
+                <h3>¡Álbum completo!</h3>
+                <p>Disfruta la satisfacción de pegar cada barajita Panini y lucir tu álbum oficial terminado.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── CTA BANNER ─── -->
+<div class="cta-banner">
+    <div class="cta-inner fi">
+        <h2>¿Listo para <span style="color:var(--gold)">completar</span> tu Panini?</h2>
+        <p>No dejes que el mundial pase sin tu álbum Panini completo. Ven a Terrazas Deli, trae tus repetidas y vive la magia del fútbol con nosotros.</p>
+        <a href="#visitanos" class="btn-gold">Ver cómo llegar →</a>
+    </div>
+</div>
+
+<!-- ─── VISIT ─── -->
+<section class="visit" id="visitanos">
+    <!-- Terrazas Deli decorativo — visit -->
+    <div class="deco-td-visit" aria-hidden="true">
+        <img src="TERRAZAS-DELI.png" alt="">
+    </div>
+    <div class="container">
+        <div class="visit-grid">
+            <div>
+                <span class="s-label fi">Encuéntranos</span>
+                <h2 class="s-title fi fi-d1">
+                    Visítanos en<br><span class="g">Terrazas Deli</span>
+                </h2>
+                <div class="glow-bar fi fi-d2"></div>
+                <p class="s-desc fi fi-d2">
+                    Nuestras puertas están abiertas para todos los fanáticos del fútbol. Ven, comparte, intercambia y vive el Mundial 2026 con nosotros.
+                </p>
+                <div class="info-cards">
+                    <div class="icard fi fi-d3">
+                        <div class="icard-ico">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        </div>
+                        <div class="icard-txt">
+                            <h4>Dirección</h4>
+                            <p>CC Las Terrazas, Av. Atlántico, Ciudad Guayana, 8050</p>
+                        </div>
+                    </div>
+                    <div class="icard fi fi-d4">
+                        <div class="icard-ico">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div class="icard-txt">
+                            <h4>Horario de intercambio</h4>
+                            <p>Lun – Sáb: 9:00 AM – 8:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="icard fi fi-d5">
+                        <div class="icard-ico">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        </div>
+                        <div class="icard-txt">
+                            <h4>Contacto / WhatsApp</h4>
+                            <p>0424 912 35 72</p>
+                        </div>
+                    </div>
+                </div>
+                <a href="https://www.google.com/maps/search/CC+Las+Terrazas+Avenida+Atlantico+Ciudad+Guayana+8050+Venezuela" target="_blank" rel="noopener" class="btn-gold fi" style="margin-top:2rem; display:inline-block;">
+                    Abrir en Google Maps →
+                </a>
+            </div>
+
+            <div class="visit-visual fi" style="position:relative;">
+                <iframe
+                    src="https://www.google.com/maps?q=CC+Las+Terrazas+Avenida+Atlantico+Ciudad+Guayana+8050+Venezuela&output=embed"
+                    width="100%" height="100%"
+                    style="position:absolute;inset:0;border:0;border-radius:28px;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Terrazas Deli en Google Maps">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <!-- Panini logo decorativo #3 — footer -->
+    <div class="deco-panini-footer" aria-hidden="true">
+        <img src="panini-logo.svg" alt="">
+    </div>
+    <div class="footer-logo">
+        <img src="TERRAZAS-DELI.png" alt="Terrazas Deli" style="height:80px; width:auto; object-fit:contain;">
+    </div>
+    <p class="footer-tag">Tu punto de intercambio Panini mundialista ⚽ 2026</p>
+    <ul class="footer-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#intercambio">Intercambio</a></li>
+        <li><a href="#jugadores">Jugadores</a></li>
+        <li><a href="#visitanos">Visítanos</a></li>
+    </ul>
+    <hr class="footer-hr">
+    <p class="footer-copy">© 2026 Terrazas Deli · Intercambio de Barajitas Panini · FIFA World Cup 2026</p>
+</footer>
+
+<script>
+    // scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fi').forEach(el => observer.observe(el));
+
+    // navbar opacity on scroll
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        nav.style.background = window.scrollY > 60
+            ? 'rgba(42,12,14,0.98)'
+            : 'rgba(61,18,21,0.82)';
+    }, { passive: true });
+
+    // hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        mobileMenu.classList.toggle('open');
+    });
+
+    // cerrar menú al tocar un link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburger.classList.remove('open');
+            mobileMenu.classList.remove('open');
+        });
+    });
+</script>
+</body>
+</html>
